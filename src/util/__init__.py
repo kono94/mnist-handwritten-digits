@@ -1,1 +1,2 @@
 from .visualize import visualize_mnist_numbers
+from .visualize import print_model_parameters

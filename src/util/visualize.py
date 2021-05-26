@@ -15,3 +15,7 @@ def visualize_mnist_numbers(trainset: Tensor, amount: int = 25) -> None:
         plt.title(label)
         plt.imshow(img.squeeze(), cmap="viridis")
     plt.show()
+
+def print_model_parameters(params) -> None:
+    for param in params:
+           print(type(param), param.size())
