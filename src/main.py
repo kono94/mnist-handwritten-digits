@@ -14,9 +14,11 @@ from torch.nn import Parameter
 def main():
     args = parse_arguments()
     torch.manual_seed(args.seed)
-    
-    model = model_chooser(args.model, activation_chooser(args.activation), args.hidden_size)
-    
+
+    model = model_chooser(
+        args.model, activation_chooser(args.activation), args.hidden_size
+    )
+
     trainer: Trainer = Trainer(
         model=model,
         loss_fn=loss_fn_chooser(args.loss_fn),
@@ -25,18 +27,21 @@ def main():
         epochs=args.epochs,
     )
     trainer.invoke_training()
-    
+
     if args.filename != None:
         trainer.save_model(args.filename)
 
 
-def model_chooser(id: int, activation_function: nn.Module, hidden_size: int) -> nn.Module:
+def model_chooser(
+    id: int, activation_function: nn.Module, hidden_size: int
+) -> nn.Module:
     if id == 1:
         return SingleLinearModel(activation_function, hidden_size)
     elif id == 2:
         return DoubleLinearModel(activation_function, hidden_size)
     else:
-        print('invalid model id')
+        print("invalid model id")
+
 
 def activation_chooser(id: int) -> nn.Module:
     if id == 1:
@@ -48,7 +53,8 @@ def activation_chooser(id: int) -> nn.Module:
     elif id == 4:
         return nn.LeakyReLU()
     else:
-        print('Invalid activation function id')
+        print("Invalid activation function id")
+
 
 def loss_fn_chooser(id: int) -> nn.Module:
     if id == 1:
@@ -58,8 +64,9 @@ def loss_fn_chooser(id: int) -> nn.Module:
     elif id == 3:
         return nn.SmoothL1Loss()
     else:
-        print('Invalid loss function id')
-        
+        print("Invalid loss function id")
+
+
 def optimizer_chooser(id: int, params: Iterator[Parameter], lr: float) -> nn.Module:
     if id == 1:
         return torch.optim.SGD(params, lr)
@@ -68,9 +75,8 @@ def optimizer_chooser(id: int, params: Iterator[Parameter], lr: float) -> nn.Mod
     elif id == 3:
         return torch.optim.AdamW(params, lr)
     else:
-        print('Invalid loss function id')
-      
-      
+        print("Invalid loss function id")
+
 
 def parse_arguments() -> argparse.Namespace:
     # Training settings
@@ -78,41 +84,70 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         "--model", type=int, default=1, metavar="M", help="model type (default: 1)"
     )
-    
+
     parser.add_argument(
-        "--activation", type=int, default=1, metavar="A", help="activation function (default: 1), 1=Sigmoid, 2=TanH, 3=ReLU, 4=LeakyReLU"
+        "--activation",
+        type=int,
+        default=1,
+        metavar="A",
+        help="activation function (default: 1), 1=Sigmoid, 2=TanH, 3=ReLU, 4=LeakyReLU",
     )
-    
+
     parser.add_argument(
-        "--loss_fn", type=int, default=1, metavar="L", help="loss function (default: 1), 1=CrossEntropyLoss, 2=MSE, 3=SmoothL1Loss"
+        "--loss_fn",
+        type=int,
+        default=1,
+        metavar="L",
+        help="loss function (default: 1), 1=CrossEntropyLoss, 2=MSE, 3=SmoothL1Loss",
     )
-    
+
     parser.add_argument(
-        "--optimizer", type=int, default=1, metavar="O", help="Optimizer (default: 1), 1=SGD, 2=Adam, 3=AdamW"
+        "--optimizer",
+        type=int,
+        default=1,
+        metavar="O",
+        help="Optimizer (default: 1), 1=SGD, 2=Adam, 3=AdamW",
     )
     parser.add_argument(
-        "--lr", type=float, default=0.001, metavar="E", help="learing rate (default: 0.001)"
-    )  
-    parser.add_argument(
-        "--hidden_size", type=int, default=512, metavar="H", help="hidden size (default: 512)"
+        "--lr",
+        type=float,
+        default=0.001,
+        metavar="E",
+        help="learing rate (default: 0.001)",
     )
-    
     parser.add_argument(
-        "--batch_size", type=int, default=64, metavar="B", help="batch size (default: 64)"
+        "--hidden_size",
+        type=int,
+        default=512,
+        metavar="H",
+        help="hidden size (default: 512)",
     )
-     
+
     parser.add_argument(
-        "--epochs", type=int, default=3, metavar="E", help="number of epochs (default: 3)"
-    )  
+        "--batch_size",
+        type=int,
+        default=64,
+        metavar="B",
+        help="batch size (default: 64)",
+    )
+
+    parser.add_argument(
+        "--epochs",
+        type=int,
+        default=3,
+        metavar="E",
+        help="number of epochs (default: 3)",
+    )
     parser.add_argument(
         "--seed", type=int, default=1, metavar="S", help="random seed (default: 1)"
     )
-    
+
     parser.add_argument(
         "--filename", type=str, default=None, metavar="SF", help="name of the .pth file"
     )
-    
+
     return parser.parse_args()
+
 
 if __name__ == "__main__":
     main()

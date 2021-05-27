@@ -5,6 +5,7 @@ from model import SingleLinearModel, DoubleLinearModel
 from train import Trainer
 import util
 
+
 def single_linear_model():
     single_linear_model = SingleLinearModel(
         activation_function=nn.Sigmoid(), hidden_size=512
@@ -40,6 +41,6 @@ def double_linear_model():
 
 
 if __name__ == "__main__":
-    print('Starting training of predefined model')
+    print("Starting training of predefined model")
     single_linear_model()
     # double_linear_model()

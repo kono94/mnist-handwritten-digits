@@ -88,7 +88,7 @@ class Trainer:
         return (acc, test_loss)
 
     def invoke_training(self) -> Tuple[float, float]:
-        acc, loss = (0,0)
+        acc, loss = (0, 0)
         for t in range(self.epochs):
             print(f"Epoch {t+1}\n-------------------------------")
             self.train_loop()
@@ -98,4 +98,7 @@ class Trainer:
         return acc, loss
 
     def save_model(self, name) -> None:
-        torch.save(self.model, f=(Path(__file__).parents[1] / "models/{}".format(name)).resolve())
+        torch.save(
+            self.model,
+            f=(Path(__file__).parents[1] / "models/{}".format(name)).resolve(),
+        )
