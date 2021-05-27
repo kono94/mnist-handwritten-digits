@@ -12,6 +12,7 @@ import torchvision
 import torchvision.transforms as transforms
 
 from data.dataset import trainset, testset
+import model
 
 # my imports
 import util
@@ -24,7 +25,7 @@ class Trainer:
     def __init__(
         self,
         model: Union[SingleLinearModel, DoubleLinearModel],
-        loss_fn: Union[nn.CrossEntropyLoss],
+        loss_fn: Union[nn.CrossEntropyLoss, nn.MSELoss, nn.SmoothL1Loss],
         optimizer: optim.Optimizer,
         batch_size: int,
         epochs: int,
@@ -97,4 +98,4 @@ class Trainer:
         return acc, loss
 
     def save_model(self, name) -> None:
-        torch.save((Path(__file__) / f"../../models/{name}").resolve())
+        torch.save(self.model, f=(Path(__file__).parents[1] / "models/{}".format(name)).resolve())

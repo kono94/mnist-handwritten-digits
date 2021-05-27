@@ -21,7 +21,7 @@ class SingleLinearModel(nn.Module):
 
 class DoubleLinearModel(nn.Module):
     def __init__(self, activation_function: nn = nn.Tanh(), hidden_size: int = 512):
-        super(SingleLinearModel, self).__init__()
+        super(DoubleLinearModel, self).__init__()
         self.flatten = nn.Flatten()
         self.linear_stack = nn.Sequential(
             nn.Linear(28 * 28, hidden_size),
