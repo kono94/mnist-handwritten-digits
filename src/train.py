@@ -6,16 +6,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from torch.types import Device
 
 from torch.utils.data import DataLoader
-import torchvision
-import torchvision.transforms as transforms
 
 from data.dataset import trainset, testset
-import model
 
 # my imports
-import util
 from model import SingleLinearModel, DoubleLinearModel
 
 from typing import Union, Tuple
@@ -29,10 +26,10 @@ class Trainer:
         optimizer: optim.Optimizer,
         batch_size: int,
         epochs: int,
+        device: Device = torch.device("cpu")
     ) -> None:
         super().__init__()
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        print(f"Processing data in device: {self.device}")
+        self.device = device
         self.model = model
         self.loss_fn = loss_fn
         self.optimizer = optimizer

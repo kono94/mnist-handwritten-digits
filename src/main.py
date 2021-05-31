@@ -14,23 +14,26 @@ from torch.nn import Parameter
 def main():
     args = parse_arguments()
     torch.manual_seed(args.seed)
-
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Processing data in device: {device}")
+    
     model = model_chooser(
         args.model, activation_chooser(args.activation), args.hidden_size
     )
-
+    model.to(device)    
+    
     trainer: Trainer = Trainer(
         model=model,
         loss_fn=loss_fn_chooser(args.loss_fn),
         optimizer=optimizer_chooser(args.optimizer, model.parameters(), args.lr),
         batch_size=args.batch_size,
         epochs=args.epochs,
+        device=device
     )
     trainer.invoke_training()
 
     if args.filename != None:
         trainer.save_model(args.filename)
-
 
 def model_chooser(
     id: int, activation_function: nn.Module, hidden_size: int
@@ -45,9 +48,9 @@ def model_chooser(
 
 def activation_chooser(id: int) -> nn.Module:
     if id == 1:
-        return nn.Sigmoid()
-    elif id == 2:
         return nn.Tanh()
+    elif id == 2:
+        return nn.Sigmoid()
     elif id == 3:
         return nn.ReLU()
     elif id == 4:
@@ -90,7 +93,7 @@ def parse_arguments() -> argparse.Namespace:
         type=int,
         default=1,
         metavar="A",
-        help="activation function (default: 1), 1=Sigmoid, 2=TanH, 3=ReLU, 4=LeakyReLU",
+        help="activation function (default: 1), 1=TanH, 2=Sigmoid, 3=ReLU, 4=LeakyReLU",
     )
 
     parser.add_argument(
