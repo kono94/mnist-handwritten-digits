@@ -25,6 +25,7 @@ class Trainer:
         loss_fn: Union[nn.CrossEntropyLoss, nn.MSELoss, nn.SmoothL1Loss],
         optimizer: optim.Optimizer,
         batch_size: int,
+        batch_size_test: int,
         epochs: int,
         device: Device = torch.device("cpu")
     ) -> None:
@@ -39,7 +40,7 @@ class Trainer:
         self.train_dataloader = DataLoader(
             trainset, batch_size=batch_size, shuffle=True
         )
-        self.test_dataloader = DataLoader(testset, batch_size=batch_size, shuffle=True)
+        self.test_dataloader = DataLoader(testset, batch_size=batch_size_test, shuffle=True)
 
         # Display image and label.
         train_features, train_labels = next(iter(self.train_dataloader))

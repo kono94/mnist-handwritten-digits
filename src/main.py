@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from model import SingleLinearModel, DoubleLinearModel
+from model import SingleLinearModel, DoubleLinearModel, ConvolutionalModel
 
 from train import Trainer
 import argparse
@@ -27,6 +27,7 @@ def main():
         loss_fn=loss_fn_chooser(args.loss_fn),
         optimizer=optimizer_chooser(args.optimizer, model.parameters(), args.lr),
         batch_size=args.batch_size,
+        batch_size_test=args.batch_size,
         epochs=args.epochs,
         device=device
     )
@@ -42,6 +43,8 @@ def model_chooser(
         return SingleLinearModel(activation_function, hidden_size)
     elif id == 2:
         return DoubleLinearModel(activation_function, hidden_size)
+    elif id == 3:
+        return ConvolutionalModel()
     else:
         print("invalid model id")
 
@@ -85,7 +88,7 @@ def parse_arguments() -> argparse.Namespace:
     # Training settings
     parser = argparse.ArgumentParser(description="PyTorch MNIST Example")
     parser.add_argument(
-        "--model", type=int, default=1, metavar="M", help="model type (default: 1)"
+        "--model", type=int, default=1, metavar="M", help="model type (default: 1), 1=SingleLinearModel, 2=DoubleLinearModel, 3=CNN"
     )
 
     parser.add_argument(

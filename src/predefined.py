@@ -15,9 +15,10 @@ def single_linear_model() -> Trainer:
     return Trainer(
         model=single_linear_model,
         loss_fn=nn.CrossEntropyLoss(),
-        optimizer=torch.optim.SGD(single_linear_model.parameters(), lr=1e-3),
+        optimizer=torch.optim.AdamW(single_linear_model.parameters(), lr=1e-3),
         batch_size=64,
-        epochs=5,
+        batch_size_test=5000,
+        epochs=6,
     )
 
 
@@ -31,6 +32,7 @@ def double_linear_model() -> Trainer:
         loss_fn=nn.CrossEntropyLoss(),
         optimizer=torch.optim.SGD(double_linear_model.parameters(), lr=1e-3),
         batch_size=64,
+        batch_size_test=64,
         epochs=1,
     )
 
