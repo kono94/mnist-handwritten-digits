@@ -97,6 +97,6 @@ class Trainer:
 
     def save_model(self, name) -> None:
         torch.save(
-            self.model,
+            self.model.state_dict(),
             f=(Path(__file__).parents[1] / "models/{}".format(name)).resolve(),
         )

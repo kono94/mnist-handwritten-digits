@@ -1,14 +1,13 @@
+import argparse
 import torch
 import torch.nn as nn
-import torch.optim as optim
+from torch.nn import Parameter
 
 from model import SingleLinearModel, DoubleLinearModel, ConvolutionalModel
-
 from train import Trainer
-import argparse
-import util
+
 from typing import Iterator
-from torch.nn import Parameter
+
 
 # src/main.py --model 1 --activation 2 --loss_fn 1 --optimizer 2 --lr 0.001 --batch_size 64 --hidden_size 512 --epochs 5 --filename model1Adam > models/model1Adam_output.txt
 def main():

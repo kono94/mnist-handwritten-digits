@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 
 from model import SingleLinearModel, DoubleLinearModel
+from model.convolutional_model import ConvolutionalModel
 from train import Trainer
 import util
 
@@ -36,13 +37,25 @@ def double_linear_model() -> Trainer:
         epochs=1,
     )
 
-
+def convolutional_model() -> Trainer:
+    cnn = ConvolutionalModel()
+    
+    util.print_model_parameters(cnn.parameters())
+    return Trainer(
+        model=cnn,
+        loss_fn=nn.CrossEntropyLoss(),
+        optimizer=torch.optim.AdamW(cnn.parameters(), lr=1e-3),
+        batch_size=64,
+        batch_size_test=64,
+        epochs=10
+    )
+    
 if __name__ == "__main__":
     print("Starting training of predefined model")
 
-    trainer: Trainer = single_linear_model()
+    trainer: Trainer = convolutional_model()
 
     final_acc, final_loss = trainer.invoke_training()
     print(f"Final Accuracy: {final_acc}, final loss: {final_loss}")
-
+    trainer.save_model("cnn")
     # double_linear_model()
