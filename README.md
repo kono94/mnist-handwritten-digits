@@ -20,5 +20,5 @@ Small private project to get used to the [Pytorch
 python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
-python3 src/main.py --model 3 --epochs 5 --optimizer 3 -seed 42 -filename myModel
+python3 src/main.py --model 3 --epochs 5 --optimizer 3 --seed 42 --filename myModel
 ```
